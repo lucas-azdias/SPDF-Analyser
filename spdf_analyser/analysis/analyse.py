@@ -192,7 +192,12 @@ def objects_tree(hierarchy: Dict[Tuple[int, int], List[Tuple[int, int]]], types:
 
         def format_tree(hierarchy: Dict[Tuple[int, int], List[Tuple[int, int]]], types: Dict[int, Tuple[str, str]], node: Tuple[int, int], level: int = 0) -> List[str]:
             node_type = types.get(node, [None, None])
-            node_string = f"{('   ' * (level - 1) + '+--') if level > 0 else ''}{node[0]}: {node_type[0].lstrip('/') if node_type[0] else 'Unknown'}{f' {node_type[1].lstrip('/')}' if node_type[1] else ''}"
+
+            prefix = ("   " * (level - 1) + "+--") if level > 0 else ""
+            type = node_type[0].lstrip("/") if node_type[0] else "Unknown"
+            subtype = f" {node_type[1].lstrip('/')}" if node_type[1] else ""
+            node_string = f"{prefix}{node[0]}: {type}{subtype}"
+            
             children = hierarchy.get(node, [])
 
             result = [node_string]
