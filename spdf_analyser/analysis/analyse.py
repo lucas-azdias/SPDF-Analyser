@@ -163,7 +163,7 @@ def content(raw_data: Tuple[Tuple[int, int], str], metadata_data: Dict[str, str]
 
         summary += f"Title: {title}\n"
         summary += f"Author: {author}\n"
-        summary += f"Creation date: {datetime.strptime(creation_date, "D:%Y%m%d%H%M%S").strftime("%d/%m/%Y %H:%M")}\n"
+        summary += f"Creation date: {datetime.strptime(creation_date, 'D:%Y%m%d%H%M%S').strftime('%d/%m/%Y %H:%M')}\n"
     else:
         summary += "Unable to extract metadata\n"
     
