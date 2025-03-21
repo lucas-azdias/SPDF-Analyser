@@ -29,8 +29,9 @@ def xref_analysis(content: bytes, syntax_tree: SyntaxNode) -> Tuple[str]:
     startxref_pointer = int(trailer_node.children[-1].value.string)
 
     # Verify is STARTXREF points to XREF
-    if not calc_line_column(content, startxref_pointer) == (xref_tokens[0].line, xref_tokens[0].position):
-        xref_errors.append("STARTXREF value doesn't point to XREF")
+    result = calc_line_column(content, startxref_pointer)
+    if not result == (xref_tokens[0].line, xref_tokens[0].position):
+        xref_errors.append(f"STARTXREF value doesn't point to XREF, should be {result}")
 
     # Get two values after XREF and all XREF elements
     xref_gen, xref_amount = (int(xref_tokens[1].string), int(xref_tokens[2].string))
@@ -60,7 +61,8 @@ def xref_analysis(content: bytes, syntax_tree: SyntaxNode) -> Tuple[str]:
         xref_pointer = int(SPDF_LANGUAGE_PATTERNS["XREF_ELEMENT"].match(xref_element.string).group(1))
         # xref_gen = int(SPDF_LANGUAGE_PATTERNS["XREF_ELEMENT"].match(xref_element.string).group(2))
 
-        if not calc_line_column(content, xref_pointer) == objects[i]:
-            xref_errors.append(f"XREF element {i + 1} pointer doesn't point to its corresponding object")
+        result = calc_line_column(content, xref_pointer)
+        if not result == objects[i]:
+            xref_errors.append(f"XREF element {i + 1} pointer doesn't point to its corresponding object, should be {result}")
 
     return tuple(xref_errors)
