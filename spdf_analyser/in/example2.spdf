@@ -1,4 +1,4 @@
-%SPDF-1.0
+%PDF-1.0
 
 1 0 obj
 << /Type /Catalog
@@ -20,7 +20,7 @@ endobj
     /Parent 2 0 R
     /Resources << /Font << /F1 5 0 R >> >>
     /MediaBox [0 0 612.0 792.0]
-    /CropBox [10.5 10.5 601.5 781.5]
+    /CropBox [10.0 10.0 602.0 782.0]
     /Rotate 0
     /Contents 6 0 R
 >>
@@ -31,7 +31,7 @@ endobj
     /Parent 2 0 R
     /Resources << /Font << /F1 5 0 R >> >>
     /MediaBox [0 0 612.0 792.0]
-    /CropBox [10.5 10.5 601.5 781.5]
+    /CropBox [10.0 10.0 602.0 782.0]
     /Rotate 0
     /Contents 9 0 R
 >>
@@ -39,82 +39,80 @@ endobj
 
 5 0 obj
 << /Type /Font
-/Subtype /Type1
-/BaseFont /Helvetica
-/FontDescriptor 10 0 R
+    /Subtype /Type1
+    /BaseFont /Times-Roman
+    /FontDescriptor 10 0 R
 >>
 endobj
 
 6 0 obj
-<< /Length 175 >>
+<< /Length 150 >>
 stream
 BT
 /F1 24 Tf
 100 700 Td
-(Relatório Financeiro: Primeiro Trimestre) Tj
+(Employee Handbook: Introduction) Tj
 /F1 12 Tf
 0 -50 Td
-(Total de vendas: 1423 unidades) Tj
+(Welcome to the team!) Tj
 0 -20 Td
-(Receita total: 158432.75 reais) Tj
+(This handbook outlines our policies.) Tj
 ET
 endstream
 endobj
 
 7 0 obj
-<< /Title (Relatório Financeiro Trimestral)
-    /Author (Departamento Financeiro)
-    /CreationDate (D:20230418090000)
-    /Keywords (finanças, relatório, trimestral)
-    /Version 1.2
+<< /Title (Employee Handbook)
+    /Author (HR Department)
+    /CreationDate (D:20250321120000)
+    /Keywords (handbook, policies, employees)
+    /Version 1.1
     /PageCount 2
 >>
 endobj
 
 8 0 obj
 << /Type /Outlines
-    /Count 3
+    /Count 2
     /First 11 0 R
-    /Last 13 0 R
+    /Last 12 0 R
 >>
 endobj
 
 9 0 obj
-<< /Length 322 >>
+<< /Length 200 >>
 stream
 BT
 /F1 18 Tf
 100 700 Td
-(Detalhamento por Categoria) Tj
+(Workplace Guidelines) Tj
 /F1 12 Tf
 0 -40 Td
-(Produto A: 523 unidades, valor unitário 89.99, total 47054.77) Tj
+(Dress code: Business casual) Tj
 0 -20 Td
-(Produto B: 347 unidades, valor unitário 125.50, total 43548.50) Tj
+(Work hours: 9 AM - 5 PM) Tj
 0 -20 Td
-(Produto C: 553 unidades, valor unitário 122.65, total 67825.45) Tj
-0 -40 Td
-(Média de vendas por produto: 474.33 unidades) Tj
+(Remote work: Allowed on Fridays) Tj
 ET
 endstream
 endobj
 
 10 0 obj
 << /Type /FontDescriptor
-    /FontName /Helvetica
-    /Flags 32
-    /FontBBox [-166 -225 1000 931]
+    /FontName /Times-Roman
+    /Flags 34
+    /FontBBox [-168 -218 1000 898]
     /ItalicAngle 0
-    /Ascent 718
-    /Descent -207
-    /CapHeight 718
-    /StemV 88
-    /MissingWidth 278
+    /Ascent 683
+    /Descent -217
+    /CapHeight 671
+    /StemV 84
+    /MissingWidth 250
 >>
 endobj
 
 11 0 obj
-<< /Title (Resumo Executivo)
+<< /Title (Introduction)
     /Parent 8 0 R
     /Next 12 0 R
     /Dest [3 0 R /FitH 792.0]
@@ -122,65 +120,35 @@ endobj
 endobj
 
 12 0 obj
-<< /Title (Detalhamento de Vendas)
+<< /Title (Guidelines)
     /Parent 8 0 R
     /Prev 11 0 R
-    /Next 13 0 R
     /Dest [4 0 R /FitH 792.0]
 >>
 endobj
 
-13 0 obj
-<< /Title (Projeções Futuras)
-    /Parent 8 0 R
-    /Prev 12 0 R
-    /Dest [4 0 R /XYZ 100 450 1.25]
->>
-endobj
-
-14 0 obj
-<< /Type /Metadata
-    /Subtype /XML
-    /Length 340
->>
-stream
-<?xpacket begin='' id='W5M0MpCehiHzreSzNTczkc9d'?>
-<x:xmpmeta xmlns:x='adobe:ns:meta/'>
-    <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
-        <rdf:Description rdf:about=''
-            xmlns:pdf='http://ns.adobe.com/pdf/1.3/'>
-            <pdf:Producer>SimplePDF Generator 1.0</pdf:Producer>
-        </rdf:Description>
-    </rdf:RDF>
-</x:xmpmeta>
-<?xpacket end='w'?>
-endstream
-endobj
-
 xref
-0 15
+0 13
 0000000000 65535 f
 0000000010 00000 n
-0000000099 00000 n
-0000000163 00000 n
-0000000344 00000 n
-0000000525 00000 n
-0000000624 00000 n
-0000000852 00000 n
-0000001048 00000 n
-0000001126 00000 n
-0000001500 00000 n
-0000001712 00000 n
-0000001818 00000 n
-0000001940 00000 n
-0000002052 00000 n
+0000000104 00000 n
+0000000176 00000 n
+0000000374 00000 n
+0000000572 00000 n
+0000000680 00000 n
+0000000891 00000 n
+0000001085 00000 n
+0000001171 00000 n
+0000001412 00000 n
+0000001640 00000 n
+0000001750 00000 n
 
 trailer
-<< /Size 15
+<< /Size 13
     /Root 1 0 R
     /Info 7 0 R
 >>
 startxref
-2500
+1858
 
 %%EOF
