@@ -1,0 +1,20 @@
+_____________________________________-
+[] make view table good to table class
+[] parser with  transtions between states
+[] implement action error and action conflict (in action_table.build and in parse_string and parse_tokens)
+
+parse from syntax tree to object class
+    -> make method get all pairs from content etc
+    -> get raw data
+    -> make hierarchy why them (they work as tree nodes as well)
+    etc etc
+
+split xref_analysis into more than one function
+
+maybe add LR0 option?
+
+Detecção de objetos não referenciados;
+o
+Identificação de ciclos de referência;
+o
+Análise de eficiência de armazenamento;

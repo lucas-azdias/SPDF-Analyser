@@ -1,0 +1,280 @@
+from .. import *
+
+from .action_entry import ActionEntry, PARSER_ACTION
+from .production_rule import ProductionRule
+from .state import State
+from .state_item import StateItem
+from .symbol import NonTerminal, Symbol, Terminal
+from .syntax_node import SyntaxNode
+from .token import Token
+
+
+DEFAULT_PARSER_STRING_SEP = " "
+DEFAULT_PARSER_STRING_MARKER = "\""
+DEFAULT_PARSER_END_MARKER = "$"
+
+
+class LR1Parser:
+    def __init__(
+            self,
+            productions_rules: Iterable[Tuple[str, str]],
+            start_symbol: Optional[str] = None,
+            string_sep: str = DEFAULT_PARSER_STRING_SEP,
+            string_marker: str = DEFAULT_PARSER_STRING_MARKER,
+            end_marker: str = DEFAULT_PARSER_END_MARKER
+        ) -> NoReturn:
+        self.apply(
+            productions_rules=productions_rules,
+            start_symbol=start_symbol,
+            string_sep=string_sep,
+            string_marker=string_marker,
+            end_marker=end_marker
+        )
+
+    # --GETTERS------
+    @property
+    def symbols(self) -> FrozenSet[Symbol]:
+        return frozenset(self._terminals | self._nonterminals) # Union of both sets
+    # ---------------
+
+    # --SETTERS------
+
+    # ---------------
+    
+    def apply(
+            self,
+            productions_rules: Iterable[Tuple[str, str]],
+            start_symbol: Optional[str] = None,
+            string_sep: str = DEFAULT_PARSER_STRING_SEP,
+            string_marker: str = DEFAULT_PARSER_STRING_MARKER,
+            end_marker: str = DEFAULT_PARSER_END_MARKER
+        ) -> NoReturn:
+        self._start_symbol: NonTerminal = NonTerminal(start_symbol or next(iter(productions_rules))[0])
+        self._string_sep: str = string_sep
+        self._end_marker: str = end_marker
+
+        self._productions_rules: List[ProductionRule] = []
+        self._terminals: Set[Terminal] = set()
+        self._nonterminals: Set[NonTerminal] = {NonTerminal(p[0]) for p in productions_rules}
+
+        self._states: List[State] = []
+        self._first_table: Dict[NonTerminal, FrozenSet[Terminal]] = defaultdict(set)
+        self._follow_table: Dict[NonTerminal, FrozenSet[Terminal]] = {}
+        self._goto_table: Dict[NonTerminal, FrozenSet[Terminal]] = {}
+        self._action_table: Dict[Tuple[int, Symbol], ActionEntry] = {}
+        self._start_aug: Optional[NonTerminal] = None
+
+        # Build production rules
+        # TODO MAKE build function with _parse_rule_side defined inside 
+        self._productions_rules = [
+            ProductionRule(
+                NonTerminal(self._parse_rule_side(lhs, string_marker)[0][0]),
+                tuple(
+                    Terminal(x, escape_value=(not is_regex)) if not x in self._nonterminals else NonTerminal(x)
+                    for x, is_regex in self._parse_rule_side(rhs, string_marker)
+                )
+            )
+            for lhs, rhs in productions_rules if lhs and rhs
+        ]
+
+        # Identify the terminal symbols based on non-terminals
+        self._terminals = {
+            symbol for production in self._productions_rules for symbol in production.rhs
+            if isinstance(symbol, Terminal)
+        }
+
+        # Add the end input marker to the terminals
+        terminal_end_marker = Terminal(self._end_marker, escape_value=True)
+        if terminal_end_marker in self._terminals:
+            raise ValueError("End marker already in terminals")
+        self._terminals.add(terminal_end_marker)
+
+        # Build parser tables
+        self.build()
+    
+    def build(self) -> NoReturn:
+        # Build states and the parsing table
+        # Build STATES
+        self._build_states()
+
+        # Build FIRST TABLE
+        self._build_first_table()
+
+        # Build FOLLOW TABLE
+        self._build_follow_table()
+
+        # Build GOIO TABLE
+        self._build_goto_table()
+
+        # Build ACTION TABLE
+        self._build_action_table()
+    
+    def parse_string(self, string: str, string_sep: Optional[str] = None) -> bool:
+        return False
+
+    def parse_tokens(self, tokens: Iterable[Token]) -> SyntaxNode:
+        return None
+
+    def _parse_rule_side(self, hs: str, marker: str) -> Tuple[Tuple[str, bool]]:
+        # Compile pattern to find substrings with marker
+        hs_pattern_marker = (lambda m: compile(fr"{m}(.*?){m}"))(marker)
+
+        # Find positions of all marked strings in the original HS
+        marked_positions = {m.start(): m.end() for m in hs_pattern_marker.finditer(hs)}
+
+        marker_size = len(marker)
+        sep_size = len(self._string_sep)
+
+        parts = []
+        index = 0
+
+        # Iterate over the string and split at string_sep while preserving marked substrings
+        while index < len(hs):
+            # If the current index is at the start of a marked string
+            if index in marked_positions:
+                # Find the end of the marked string
+                end_index = marked_positions[index]
+                parts.append((hs[index + marker_size:end_index - marker_size], True)) # Ignore the marker
+                index = end_index + sep_size
+            else:
+                # Find the next separator
+                next_sep = hs.find(self._string_sep, index)
+
+                # If no more separators in the string, end
+                if next_sep == -1:
+                    parts.append((hs[index:], False))
+                    break
+
+                # Get up to the next separator
+                parts.append((hs[index:next_sep], False))
+                index = next_sep + sep_size
+
+            # Remove empty strings
+            if parts[-1] == "":
+                parts.pop()
+
+        return tuple(parts)
+
+    def _build_states(self) -> NoReturn:
+            ...
+
+    def _build_first_table(self) -> NoReturn:
+        # Compute the FIRST set of of symbols (terminals and non-terminals),
+        # which is the set of all possible terminal symbols that can appear
+        # as the first symbol in some string derived from that sequence
+
+        # Build the first table
+        for rule in self._productions_rules:
+            self._first_table[rule.lhs].add(rule.rhs[0])
+
+        # Fixes non-terminals with updating from first table values (uses transitive closure)
+        self._first_table = LR1Parser._transitive_closure(
+            self._first_table,
+            lambda x: isinstance(x, NonTerminal)
+        )
+
+        print("FIRST TABLE", self._first_table)
+
+    def _build_follow_table(self) -> NoReturn:
+        for rule in self._productions_rules:
+            for i in range(len(rule.rhs)):
+                follow_set = set()
+                next_symbol = rule.rhs[i + 1]
+                is_last_value = i + 1 >= len(rule.rhs)
+
+                if not is_last_value and isinstance(next_symbol, Terminal):
+                    # A -> ... R a = {a}
+                    follow_set.add(next_symbol)
+                
+                elif not is_last_value and isinstance(next_symbol, NonTerminal):
+                    # A -> ... R A = {FIRST(A)}
+                    follow_set.add(self._first(next_symbol))
+                
+                else:
+                    # A -> ... R = {FOLLOW(A)}
+                    follow_set.add(rule.lhs)
+
+        # Fixes non-terminals with updating from follow table values (uses transitive closure)
+        self._follow_table = LR1Parser._transitive_closure(
+            self._follow_table,
+            lambda x: isinstance(x, NonTerminal)
+        )
+
+    def _build_goto_table(self) -> NoReturn:
+        ...
+        
+    def _build_action_table(self) -> NoReturn:
+        ...
+
+    def _closure(self, items: Iterable[StateItem]) -> FrozenSet[StateItem]:
+        # Calculate the closure of a collection of state items by adding expanded production rules
+        # I.e. expand the state by adding all productions of non-terminals that appear immediately after the dot
+        closure_set = set(items)
+
+        # Map production rules to dict that links LHS to an array of all production rules that match the LHS
+        prod_map = defaultdict(list)
+        for production in self._productions_rules:
+            prod_map[production.lhs].append(production)
+        
+        # Keep adding production rules based on the non-terminals in each RHS
+        while True:
+            new_items = set()
+
+            # For all state items
+            for item in closure_set:
+                # Skip if dot is at end of RHS
+                if item.dot_position >= len(item.production.rhs):
+                    continue
+                
+                next_symbol = item.production.rhs[item.dot_position]
+
+                # Skip is next symbol is not a non terminal
+                if not next_symbol in self._nonterminals:
+                    continue
+
+                # Get the lookahead symbol as the next symbol following
+                lookahead = item.production.rhs[item.dot_position + 1] if item.dot_position + 1 < len(item.production.rhs) else Terminal(self._end_marker, escape_value=True)
+
+                # New item with dot position at start with each lookahead
+                for prod in prod_map[next_symbol]:
+                    new_items.add(StateItem(prod, 0, lookahead))
+
+            # If no production rules where added, end closure
+            if not new_items - closure_set:
+                break
+
+            closure_set.update(new_items)
+
+        return frozenset(closure_set)
+
+    def _transitive_closure(values_table: Dict[Any, Iterable[Any]], verify_function: Callable[[Any], bool]) -> Dict[Any, FrozenSet[Any]]:
+        transitive_table = dict()
+        for key, values_set in values_table:
+            has_transitive_value = True
+            current_set = set(values_set)
+            last_set = set(values_set)
+            while has_transitive_value and has_changed:
+                has_transitive_value = False
+                has_changed = False
+                for s in current_set:
+                    if verify_function(s):
+                        current_set.update(values_table[s])
+                        current_set.remove(s)
+                        has_transitive_value = True
+                        if current_set != last_set:
+                            has_changed = True
+                            last_set = set(current_set)
+
+            transitive_table[key] = frozenset(current_set)
+
+
+# Example usage
+if __name__ == "__main__":
+    grammar = [
+        ("E", "E + B"),
+        ("E", "B"),
+        ("B", "0"),
+        ("B", "1"),
+    ]
+    parser = LR1Parser(grammar)
+    print(parser.parse_string("1 + 0 + 1"))  # Should return True

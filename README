@@ -1,0 +1,16 @@
+RUN SPDF-ANALISER WITH
+```
+py -m spdf-analiser
+```
+
+https://github.com/umut-sahin/dotlr?tab=readme-ov-file
+https://en.wikipedia.org/wiki/Canonical_LR_parser
+https://serokell.io/blog/how-to-implement-lr1-parser
+https://www.cs.clemson.edu/course/cpsc827/material/LRk/LR0.pdf
+https://www.antlr.org/
+https://www.naukri.com/code360/library/first-and-follow-in-compiler-design
+https://www.youtube.com/watch?v=ukCW2WX7u0c
+https://www.youtube.com/watch?v=oOCromcWnfc
+https://www.geeksforgeeks.org/follow-set-in-syntax-analysis/
+https://www.youtube.com/watch?v=aks9Ichh6Rk
+https://web.eecs.umich.edu/~weimerw/2009-4610/lectures/weimer-4610-09.pdf
