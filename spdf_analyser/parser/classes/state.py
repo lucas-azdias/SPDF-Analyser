@@ -23,7 +23,7 @@ class State:
         return hash(self.items)
 
     def __str__(self) -> str:
-        return f"{", ".join(map(str, self.items))}"
+        return f"{', '.join(map(str, self.items))}"
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self.__str__()})"
