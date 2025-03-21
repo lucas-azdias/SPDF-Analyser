@@ -168,7 +168,8 @@ def content(raw_data: Tuple[Tuple[int, int], str], metadata_data: Dict[str, str]
         summary += "Unable to extract metadata\n"
     
     if raw_data:
-        summary += f"Extracted text (first 200 characters): \"{('\n'.join([stream for _, stream in raw_data]))[:200]}\""
+        text = ('\n'.join([stream for _, stream in raw_data]))[:200]
+        summary += f"Extracted text (first 200 characters): \"{text}\""
     else:
         summary += "Unable to extract content"
 
