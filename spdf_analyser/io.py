@@ -97,7 +97,7 @@ def calc_line_column(content: bytes, offset: int, endl: ENDL = None) -> Tuple[in
 
     line, column, index = 0, 0, 0
     
-    while index < offset - 1:
+    while index < offset - (endl_size - 1 if endl_size else 0):
         if content[index:index + endl_size] == endl_marker:
             line += 1
             column = 0
