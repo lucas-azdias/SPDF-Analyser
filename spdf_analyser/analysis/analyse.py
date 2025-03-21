@@ -136,11 +136,11 @@ def statistics(file_content: bytes, syntax_tree: SyntaxNode, types: Dict[Tuple[i
         obj_types = dict(Counter([type[0].lstrip("/") for type in types.values() if type[0] != None]))
 
         # Calculating structural overhead
-        overhead = len(bytes(''.join([stream for _, stream in raw_data]), encoding=encoding))
+        overhead = len(bytes("".join([stream for _, stream in raw_data]), encoding=encoding))
 
         summary += f"Total of objects: {len(objects) + 1 if syntax_tree else 'Undefined'}\n"
         summary += f"Objects per type: {', '.join([f'{k}={v}' for k, v in obj_types.items()])}\n"
-        summary += f"Total of pages: {obj_types["Page"] if "Page" in obj_types else 0}\n"
+        summary += f"Total of pages: {obj_types['Page'] if 'Page' in obj_types else 0}\n"
         summary += f"Size of document: {len(file_content)} bytes\n"
         summary += f"Structural overhead: {overhead} bytes ({100 * overhead / len(file_content):.1f}%)"
     
