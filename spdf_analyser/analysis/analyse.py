@@ -197,7 +197,7 @@ def objects_tree(hierarchy: Dict[Tuple[int, int], List[Tuple[int, int]]], types:
             type = node_type[0].lstrip("/") if node_type[0] else "Unknown"
             subtype = f" {node_type[1].lstrip('/')}" if node_type[1] else ""
             node_string = f"{prefix}{node[0]}: {type}{subtype}"
-            
+
             children = hierarchy.get(node, [])
 
             result = [node_string]
@@ -248,7 +248,7 @@ def advanced_analysis(config: Dict[str, bool], output_path: Path, raw_data: Tupl
                             text_data.append(format_stream(stream))
                             added_texts.append((obj_id, obj_gen))
                 is_written = file_writter(output_path, "\n\n".join(text_data), encoding=encoding, print_status=False)
-                text += f"{f'Exported to file \"{str(output_path)}\" with success' if is_written else 'Failed to export to file'}"
+                text += f"Exported to file \"{str(output_path)}\" with success" if is_written else "Failed to export to file"
             else:
                 text += "Unable to extract text"
             analysis.append(text)
