@@ -28,6 +28,8 @@ py -m spdf-analiser
 - https://www.youtube.com/watch?v=aks9Ichh6Rk
 - https://web.eecs.umich.edu/~weimerw/2009-4610/lectures/weimer-4610-09.pdf
 
+---
+
 ## Summary
 This project implements an analyzer for **SPDF** documents — a simplified, theoretical version of PDF — developed as part of the **Interpreter Construction** course taught by **Frank Coelho Alcântara**.
 The analyzer is built using a **Bottom-Up LR(1) parser**.
