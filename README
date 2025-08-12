@@ -2,10 +2,12 @@
 
 ## Resumo
 Projeto de analisador de um documento **SPDF** (versão teórica simplificada de um PDF) desenvolvido na disciplina de **Construção de Interpretadores** ministrada por **Frank Coelho Alcântara**.
+
 Para realizar o trabalho utilizei um parser Bottom-Up LR(1).
 Há uma versão pronta para execução no Google Colab no arquivo `PDF Analyser.ipynb`.
+
 Porém, caso queira executar localmente, utilize:
-```
+```bash
 py -m spdf-analiser
 ```
 
@@ -27,8 +29,9 @@ This project implements an analyzer for **SPDF** documents — a simplified, the
 
 The analyzer is built using a **Bottom-Up LR(1) parser**.  
 A ready-to-run notebook is available on Google Colab: `PDF Analyser.ipynb`.  
+
 To run it locally, use:
-```
+```bash
 py -m spdf-analiser
 ```
 
