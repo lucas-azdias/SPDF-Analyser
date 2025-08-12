@@ -1,17 +1,21 @@
-# SPDF Document Analyzer
+# SPDF Document Analyzer (Analisador de documentos SPDF)
 
 ## Resumo
 Projeto de analisador de um documento **SPDF** (versão teórica simplificada de um PDF) desenvolvido na disciplina de **Construção de Interpretadores** ministrada por **Frank Coelho Alcântara**.
-
 Para realizar o trabalho utilizei um parser Bottom-Up LR(1).
+
+## Começo rápido
+
+### Online
 Há uma versão pronta para execução no Google Colab no arquivo `PDF Analyser.ipynb`.
 
+### Localmente
 Porém, caso queira executar localmente, utilize:
 ```bash
 py -m spdf-analiser
 ```
 
-### Referências utilizadas:
+## Referências utilizadas:
 - https://github.com/umut-sahin/dotlr?tab=readme-ov-file
 - https://en.wikipedia.org/wiki/Canonical_LR_parser
 - https://serokell.io/blog/how-to-implement-lr1-parser
@@ -26,16 +30,20 @@ py -m spdf-analiser
 
 ## Summary
 This project implements an analyzer for **SPDF** documents — a simplified, theoretical version of PDF — developed as part of the **Interpreter Construction** course taught by **Frank Coelho Alcântara**.
+The analyzer is built using a **Bottom-Up LR(1) parser**.
 
-The analyzer is built using a **Bottom-Up LR(1) parser**.  
+## Quickstart
+
+### Online
 A ready-to-run notebook is available on Google Colab: `PDF Analyser.ipynb`.  
 
+### Locally
 To run it locally, use:
 ```bash
 py -m spdf-analiser
 ```
 
-### References used:
+## References used:
 - https://github.com/umut-sahin/dotlr?tab=readme-ov-file
 - https://en.wikipedia.org/wiki/Canonical_LR_parser
 - https://serokell.io/blog/how-to-implement-lr1-parser

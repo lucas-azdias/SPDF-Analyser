@@ -13,6 +13,8 @@ split xref_analysis into more than one function
 
 maybe add LR0 option?
 
+make enum ENDL with "\n" and "\r\n" as values
+
 Detecção de objetos não referenciados;
 o
 Identificação de ciclos de referência;
